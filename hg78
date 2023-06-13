@@ -1,0 +1,24 @@
+This source code is licensed under the license found in the
+LICENSE file in the root directory of this source tree.
+"""
+
+from tempfile import NamedTemporaryFile
+import torch
+import gradio as gr
+from audiocraft.data.audio_utils import convert_audio
+from audiocraft.data.audio import audio_write
+from audiocraft.models import MusicGen
+
+
+MODEL = None
+
+
+def load_model():
+    print("Loading model")
+    return MusicGen.get_pretrained("melody")
+
+
+def predict(texts, melodies):
+    global MODEL
+    if MODEL is None:
+        MODEL = load_model()
